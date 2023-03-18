@@ -12,6 +12,8 @@ public class User {
         this.email = email;
         this.phone = phone;
     }
+    public User(){
+    }
 
     public int getId() {
         return id;
