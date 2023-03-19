@@ -11,9 +11,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Class that implements DAO interface for accessing the User table from the database
+ */
 @Repository
 public class UserDAO implements DAO<User>{
-
+    /**
+     * Method that receive an id and return the corespondent user from the database
+     *  This method create an select query and execute it
+     * @param id
+     * @return
+     */
    public User get(int id){
        Connection connection = null;
        PreparedStatement statement = null;
@@ -44,6 +53,11 @@ public class UserDAO implements DAO<User>{
        return user;
     }
 
+    /**
+     * Method that return all users from the database
+     * This method create an select query and execute it
+     * @return
+     */
    public List<User> getAll(){
        Connection connection = null;
        PreparedStatement statement = null;
@@ -75,6 +89,11 @@ public class UserDAO implements DAO<User>{
        return list;
     }
 
+    /**
+     * Method that receive an user as parameter and save it in the database
+     * This method create a save query and execute it
+     * @param user
+     */
    public void save(User user){
        Connection connection = null;
        PreparedStatement statement = null;
@@ -99,10 +118,22 @@ public class UserDAO implements DAO<User>{
        }
     }
 
+    /**
+     * Method that receive an user id and a list o parameters of type string and update in the database
+     * the user with the give id
+     * This method create an update query and execute it
+     * @param id
+     * @param params
+     */
     public void update(int id,String params[]){
 
     }
 
+    /**
+     * Method that delete an user from the database using his id
+     * This method create a delte query and execute it
+     * @param id
+     */
     public void delete(int id){
         Connection connection = null;
         PreparedStatement statement = null;

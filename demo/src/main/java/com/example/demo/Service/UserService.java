@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+/**
+ * Class that implement the business logic for object of type User
+ */
 @Service
 public class UserService{
 
@@ -16,18 +20,33 @@ public class UserService{
         this.dao = dao;
     }
 
+    /**
+     * Method that receive an id and return the corespondent user from the repository
+     * @param id
+     * @return
+     */
     public User get(int id){
         return dao.get(id );
     }
 
+    /**
+     *  Method that return all users from the repository
+     * @return
+     */
     public List<User> getAll(){
         return dao.getAll();
     }
 
+    /**
+     *  Method that receive an user as parameter and save it in the repository
+     * @param user
+     */
     public void save(User user){
         dao.save(user);
     }
-
+    /**
+     Method that delete an user from the repository using his id
+     */
     public void delete(int id){
         dao.delete(id);
     }
