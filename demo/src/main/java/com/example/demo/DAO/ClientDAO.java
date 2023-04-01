@@ -62,29 +62,30 @@ public class ClientDAO implements DAO<Client>{
         PreparedStatement statement2 = null;
         ResultSet resultSet = null;
         ResultSet resultSet2 = null;
-        String query = "SELECT * FROM user WHERE id=?";
+        String query2 = "SELECT * FROM taxi.user WHERE id = ?";
         List<Client> list = new ArrayList<Client>();
-        String query2 = "SELECT * FROM client";
+        String query1 = "SELECT * FROM client";
         try{
             connection = ConnectionFactory.getConnection();
-            statement = connection.prepareStatement(query2);
+            statement = connection.prepareStatement(query1);
             resultSet = statement.executeQuery();
 
             while(resultSet.next()){
-                Client client = new Client();
+               Client client = new Client();
                 client.setClientID(resultSet.getInt("client_id"));
+                client.setId(resultSet.getInt("user_id"));
                 client.setCardNumber(resultSet.getString("card_number"));
                 int userID = resultSet.getInt("user_id");
-                statement2 = connection.prepareStatement(query);
+                statement2 = connection.prepareStatement(query2);
                 statement2.setInt(1,userID);
-                resultSet2 = statement.executeQuery();
+                resultSet2 = statement2.executeQuery();
                 resultSet2.next();
                 client.setId(resultSet2.getInt("id"));
                 client.setName(resultSet2.getString("name"));
                 client.setEmail(resultSet2.getString("email"));
                 client.setPhone(resultSet2.getString("phone"));
                 client.setPassword(resultSet2.getString("password"));
-                client.setPassword(resultSet2.getString("type"));
+                client.setType(resultSet2.getString("type"));
                 list.add(client);
             }
         }
@@ -93,6 +94,7 @@ public class ClientDAO implements DAO<Client>{
         }
         finally {
             ConnectionFactory.close(resultSet);
+            ConnectionFactory.close(resultSet2);
             ConnectionFactory.close(statement);
             ConnectionFactory.close(statement2);
             ConnectionFactory.close(connection);
@@ -180,21 +182,19 @@ public class ClientDAO implements DAO<Client>{
         int generatedKey = 0;
         try{
             connection = ConnectionFactory.getConnection();
-            statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(query);
             statement.setString(1,client.getName());
             statement.setString(2,client.getEmail());
             statement.setString(3,client.getPhone());
             statement.setString(4,client.getPassword());
             statement.setInt(5,client.getId());
             statement.execute();
-            statement2 =connection.prepareStatement(query2);
+            statement2 =connection.prepareStatement(query2,Statement.RETURN_GENERATED_KEYS);
             statement2.setString(1,client.getCardNumber());
             statement2.setInt(2,client.getId());
             statement2.execute();
             resultSet = statement2.getGeneratedKeys();
-            if(resultSet.next()){
-                generatedKey = resultSet.getInt(1);
-            }
+
 
         }
         catch(SQLException e){

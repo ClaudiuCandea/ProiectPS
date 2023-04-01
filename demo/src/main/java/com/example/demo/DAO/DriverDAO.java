@@ -60,27 +60,30 @@ public class DriverDAO implements DAO<Driver>{
         PreparedStatement statement = null;
         PreparedStatement statement2 = null;
         ResultSet resultSet = null;
-        String query = "SELECT * FROM user WHERE id = ?";
+        ResultSet resultSet2 = null;
+        String query2 = "SELECT * FROM taxi.user WHERE id = ?";
         List<Driver> list = new ArrayList<Driver>();
-        String query2 = "SELECT * FROM driver WHERE driver_id = ?";
+        String query1 = "SELECT * FROM driver";
         try{
             connection = ConnectionFactory.getConnection();
-            statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(query1);
             resultSet = statement.executeQuery();
 
             while(resultSet.next()){
                 Driver driver = new Driver();
                 driver.setDriverID(resultSet.getInt("driver_id"));
+                driver.setId(resultSet.getInt("user_id"));
                 int userID = resultSet.getInt("user_id");
                 statement2 = connection.prepareStatement(query2);
                 statement2.setInt(1,userID);
-                statement.executeQuery(query2);
-                driver.setId(resultSet.getInt("id"));
-                driver.setName(resultSet.getString("name"));
-                driver.setEmail(resultSet.getString("email"));
-                driver.setPhone(resultSet.getString("phone"));
-                driver.setPassword(resultSet.getString("password"));
-                driver.setPassword(resultSet.getString("type"));
+                resultSet2 = statement2.executeQuery();
+                resultSet2.next();
+                driver.setId(resultSet2.getInt("id"));
+                driver.setName(resultSet2.getString("name"));
+                driver.setEmail(resultSet2.getString("email"));
+                driver.setPhone(resultSet2.getString("phone"));
+                driver.setPassword(resultSet2.getString("password"));
+                driver.setType(resultSet2.getString("type"));
                 list.add(driver);
             }
         }
@@ -89,6 +92,7 @@ public class DriverDAO implements DAO<Driver>{
         }
         finally {
             ConnectionFactory.close(resultSet);
+            ConnectionFactory.close(resultSet2);
             ConnectionFactory.close(statement);
             ConnectionFactory.close(statement2);
             ConnectionFactory.close(connection);

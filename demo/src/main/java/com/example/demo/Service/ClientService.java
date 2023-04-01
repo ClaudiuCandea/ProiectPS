@@ -28,7 +28,7 @@ public class ClientService {
     }
 
     public int updateClient(Client client){
-        return dao.save(client);
+        return dao.update(client);
     }
 
     public void deleteClient(int userID){

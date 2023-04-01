@@ -1,7 +1,6 @@
 package com.example.demo.Model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 public class Order {
     private int id;
@@ -17,8 +16,8 @@ public class Order {
         this.driverID = driverID;
         this.startLocation = startLocation;
         this.destinationLocation = destinationLocation;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-        formatter.format(this.orderDate);
+        long millis = System.currentTimeMillis();
+        orderDate = new Date(millis);
     }
 
     public Order(){
@@ -71,5 +70,17 @@ public class Order {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", clientID=" + clientID +
+                ", driverID=" + driverID +
+                ", startLocation='" + startLocation + '\'' +
+                ", destinationLocation='" + destinationLocation + '\'' +
+                ", orderDate=" + orderDate +
+                '}';
     }
 }
