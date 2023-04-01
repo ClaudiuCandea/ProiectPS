@@ -34,9 +34,6 @@ public class Driver extends User{
         this.observer = observer;
     }
 
-    public void removeObserver(){
-        this.observer = null;
-    }
 
     public int getNoTakenOrders() {
         return noTakenOrders;
@@ -44,5 +41,6 @@ public class Driver extends User{
 
     public void setNoTakenOrders(int noTakenOrders) {
         this.noTakenOrders = noTakenOrders;
+        notifyObserver();
     }
 }
