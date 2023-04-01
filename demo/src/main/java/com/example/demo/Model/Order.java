@@ -5,20 +5,24 @@ import java.util.Date;
 
 public class Order {
     private int id;
-    private Client client;
-    private Driver driver;
+    private int clientID;
+    private int driverID;
     private String startLocation;
     private String destinationLocation;
     private Date orderDate;
 
-    public Order(int id, Client client, Driver driver, String startLocation, String destinationLocation){
+    public Order(int id, int clientID, int driverID, String startLocation, String destinationLocation){
         this.id = id;
-        this.client = client;
-        this.driver = driver;
+        this.clientID = clientID;
+        this.driverID = driverID;
         this.startLocation = startLocation;
         this.destinationLocation = destinationLocation;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
         formatter.format(this.orderDate);
+    }
+
+    public Order(){
+
     }
 
     public int getId() {
@@ -29,20 +33,20 @@ public class Order {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
+    public int getClientID() {
+        return clientID;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public int getDriverID() {
+        return driverID;
     }
 
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setDriverID(int driverID) {
+        this.driverID = driverID;
     }
 
     public String getStartLocation() {

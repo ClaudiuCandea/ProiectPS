@@ -5,14 +5,18 @@ public class Car {
     private String producer;
     private String model;
     private String registration_number;
-    private Driver driver;
+    private int driverID;
 
-    public Car(int id, String producer, String model, String registration_number,Driver driver){
+    public Car(int id, String producer, String model, String registration_number,int driverID){
         this.id = id;
         this.producer = producer;
         this.model = model;
         this.registration_number = registration_number;
-        this.driver = driver;
+        this.driverID = driverID;
+    }
+
+    public Car(){
+
     }
 
     public int getId() {
@@ -47,11 +51,11 @@ public class Car {
         this.registration_number = registration_number;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public int getDriverID() {
+        return driverID;
     }
 
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setDriverID(int driverID) {
+        this.driverID = driverID;
     }
 }

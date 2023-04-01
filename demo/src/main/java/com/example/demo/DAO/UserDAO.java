@@ -2,13 +2,9 @@ package com.example.demo.DAO;
 
 import com.example.demo.Connection.ConnectionFactory;
 import com.example.demo.Model.User;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +35,8 @@ public class UserDAO implements DAO<User>{
                 user.setName(resultSet.getString("name"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPhone(resultSet.getString("phone"));
+                user.setPassword(resultSet.getString("password"));
+                user.setPassword(resultSet.getString("type"));
 
            }
        }
@@ -52,6 +50,8 @@ public class UserDAO implements DAO<User>{
        }
        return user;
     }
+
+
 
     /**
      * Method that return all users from the database
@@ -75,6 +75,8 @@ public class UserDAO implements DAO<User>{
                user.setName(resultSet.getString("name"));
                user.setEmail(resultSet.getString("email"));
                user.setPhone(resultSet.getString("phone"));
+               user.setPassword(resultSet.getString("password"));
+               user.setPassword(resultSet.getString("type"));
                list.add(user);
            }
        }
@@ -94,38 +96,72 @@ public class UserDAO implements DAO<User>{
      * This method create a save query and execute it
      * @param user
      */
-   public void save(User user){
+   public int save(User user){
        Connection connection = null;
        PreparedStatement statement = null;
        ResultSet resultSet = null;
-       String query = "INSERT INTO user (name,email,phone) VALUES (?,?,?)";
+       String query = "INSERT INTO user (name,email,phone,password,type) VALUES (?,?,?,?,?)";
+       int generatedKey = 0;
        try{
            connection = ConnectionFactory.getConnection();
-           statement = connection.prepareStatement(query);
+           statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
            statement.setString(1,user.getName());
            statement.setString(2,user.getEmail());
            statement.setString(3,user.getPhone());
-            statement.execute();
+           statement.setString(4,user.getPassword());
+           statement.setString(5,user.getType());
+           statement.execute();
+           resultSet = statement.getGeneratedKeys();
+           if(resultSet.next()){
+               generatedKey = resultSet.getInt(1);
+           }
 
        }
        catch(SQLException e){
            e.printStackTrace();
        }
        finally {
-           ConnectionFactory.close(resultSet);
            ConnectionFactory.close(statement);
            ConnectionFactory.close(connection);
        }
+       return generatedKey;
     }
 
     /**
      * Method that receive an user id and a list o parameters of type string and update in the database
      * the user with the give id
      * This method create an update query and execute it
-     * @param id
-     * @param params
      */
-    public void update(int id,String params[]){
+    public int update(User user){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String query = "UPDATE user SET name = ?, email  = ? , phone = ? , password = ? WHERE id = ?";
+        int generatedKey = 0;
+        try{
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1,user.getName());
+            statement.setString(2,user.getEmail());
+            statement.setString(3,user.getPhone());
+            statement.setString(4,user.getPassword());
+            statement.setInt(5,user.getId());
+            statement.execute();
+            resultSet = statement.getGeneratedKeys();
+            if(resultSet.next()){
+                generatedKey = resultSet.getInt(1);
+            }
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(connection);
+        }
+        return generatedKey;
+
 
     }
 
@@ -149,7 +185,6 @@ public class UserDAO implements DAO<User>{
             e.printStackTrace();
         }
         finally {
-            ConnectionFactory.close(resultSet);
             ConnectionFactory.close(statement);
             ConnectionFactory.close(connection);
         }

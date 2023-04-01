@@ -43,12 +43,18 @@ public class UserService{
      */
     public void save(User user){
         dao.save(user);
+        if(user.getType().equals("client")){
+
+        }
     }
     /**
      Method that delete an user from the repository using his id
      */
     public void delete(int id){
         dao.delete(id);
+    }
+    public void update(User user){
+        dao.update(user);
     }
 
 

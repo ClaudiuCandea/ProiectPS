@@ -4,10 +4,14 @@ public class Client extends User{
     private int clientID;
     private String cardNumber;
 
-    public Client(int clientID, int userID,String name, String mail, String phone, String cardNumber){
-        super(userID,name,mail,phone);
+    public Client(int clientID, int userID,String name, String mail, String phone, String cardNumber,String password,String type){
+        super(userID,name,mail,phone,password,type);
         this.clientID = clientID;
         this.cardNumber = cardNumber;
+
+    }
+
+    public Client(){
 
     }
 

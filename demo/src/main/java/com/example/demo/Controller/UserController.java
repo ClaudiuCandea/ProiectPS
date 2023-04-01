@@ -42,9 +42,9 @@ public class UserController {
      * Method that execute a put request on the user table
      * @param user
      */
-    @PutMapping("/saveUser")
+    @PutMapping("/update")
     public void saveUser(@RequestBody User user){
-        userService.save(user);
+        userService.update(user);
     }
 
     /**
