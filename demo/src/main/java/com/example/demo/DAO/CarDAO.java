@@ -28,6 +28,7 @@ public class CarDAO implements DAO<Car>{
                 car.setModel(resultSet.getString("model"));
                 car.setRegistration_number(resultSet.getString("registration_number"));
                 car.setDriverID(resultSet.getInt("driver_id"));
+                car.setNoTakenOrders(resultSet.getInt("no_taken_orders"));
 
             }
         }
@@ -61,6 +62,7 @@ public class CarDAO implements DAO<Car>{
                 car.setModel(resultSet.getString("model"));
                 car.setRegistration_number(resultSet.getString("registration_number"));
                 car.setDriverID(resultSet.getInt("driver_id"));
+                car.setNoTakenOrders(resultSet.getInt("no_taken_orders"));
                 list.add(car);
 
             }
@@ -82,7 +84,7 @@ public class CarDAO implements DAO<Car>{
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String query = "INSERT INTO car ( driver_id,producer,model,registration_number) VALUES (?,?,?,?)";
+        String query = "INSERT INTO car ( driver_id,producer,model,registration_number,no_taken_orders) VALUES (?,?,?,?,?)";
         int generatedKey = 0;
         try{
             connection = ConnectionFactory.getConnection();
@@ -91,6 +93,7 @@ public class CarDAO implements DAO<Car>{
             statement.setString(2,car.getProducer());
             statement.setString(3,car.getModel());
             statement.setString(4,car.getRegistration_number());
+            statement.setInt(5,car.getNoTakenOrders());
             statement.execute();
             resultSet = statement.getGeneratedKeys();
             if(resultSet.next()){
@@ -135,7 +138,7 @@ public class CarDAO implements DAO<Car>{
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String query = "UPDATE car SET driver_id = ?, producer  = ? , model = ? , registration_number = ? WHERE car_id = ?";
+        String query = "UPDATE car SET driver_id = ?, producer  = ? , model = ? , registration_number = ?, no_taken_orders = ? WHERE car_id = ?";
         int generatedKey = 0;
         try{
             connection = ConnectionFactory.getConnection();
@@ -144,7 +147,8 @@ public class CarDAO implements DAO<Car>{
             statement.setString(2,car.getProducer());
             statement.setString(3,car.getModel());
             statement.setString(4,car.getRegistration_number());
-            statement.setInt(5,car.getId());
+            statement.setInt(5,car.getNoTakenOrders());
+            statement.setInt(6,car.getId());
             statement.execute();
             resultSet = statement.getGeneratedKeys();
             if(resultSet.next()){

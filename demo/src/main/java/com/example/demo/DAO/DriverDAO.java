@@ -29,6 +29,7 @@ public class DriverDAO implements DAO<Driver>{
 
             while(resultSet.next()){
                 driver.setDriverID(resultSet.getInt("driver_id"));
+                driver.setNoTakenOrders(resultSet.getInt("no_taken_orders"));
                 int userID = resultSet.getInt("user_id");
                 statement2 = connection.prepareStatement(query2);
                 statement2.setInt(1,userID);
@@ -72,6 +73,7 @@ public class DriverDAO implements DAO<Driver>{
             while(resultSet.next()){
                 Driver driver = new Driver();
                 driver.setDriverID(resultSet.getInt("driver_id"));
+                driver.setNoTakenOrders(resultSet.getInt("no_taken_orders"));
                 driver.setId(resultSet.getInt("user_id"));
                 int userID = resultSet.getInt("user_id");
                 statement2 = connection.prepareStatement(query2);
@@ -107,7 +109,7 @@ public class DriverDAO implements DAO<Driver>{
         PreparedStatement statement2 = null;
         ResultSet resultSet = null;
         String query = "INSERT INTO user (name,email,phone,password,type) VALUES (?,?,?,?,?)";
-        String query2 = "INSERT INTO driver (user_id) VALUES (?)";
+        String query2 = "INSERT INTO driver (user_id,no_taken_orders) VALUES (?,?)";
         int generatedKey = 0;
         try{
             connection = ConnectionFactory.getConnection();
@@ -124,6 +126,7 @@ public class DriverDAO implements DAO<Driver>{
             }
             statement2 = connection.prepareStatement(query2,Statement.RETURN_GENERATED_KEYS);
             statement2.setInt(1,generatedKey);
+            statement2.setInt(2,driver.getNoTakenOrders());
             statement2.execute();
 
         }
@@ -171,8 +174,10 @@ public class DriverDAO implements DAO<Driver>{
     public int update(Driver driver) {
         Connection connection = null;
         PreparedStatement statement = null;
+        PreparedStatement statement2 = null;
         ResultSet resultSet = null;
         String query = "UPDATE user SET name = ?, email  = ? , phone = ? , password = ? WHERE id = ?";
+        String query2 = "UPDATE driver SET no_taken_orders = ? WHERE user_id = ?";
         int generatedKey = 0;
         try{
             connection = ConnectionFactory.getConnection();
@@ -183,11 +188,14 @@ public class DriverDAO implements DAO<Driver>{
             statement.setString(4,driver.getPassword());
             statement.setInt(5,driver.getId());
             statement.execute();
-
             resultSet = statement.getGeneratedKeys();
             if(resultSet.next()){
                 generatedKey = resultSet.getInt(1);
             }
+            statement2 = connection.prepareStatement(query2);
+            statement2.setInt(1,driver.getNoTakenOrders());
+            statement2.setInt(2,driver.getId());
+            statement2.execute();
 
         }
         catch(SQLException e){
