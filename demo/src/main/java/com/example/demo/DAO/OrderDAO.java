@@ -9,8 +9,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that execute the basic CRUD operation on the order table from the taxi database: INSERT, DELETE, SELECT, UPDATE.
+ */
 @Repository
 public class OrderDAO implements DAO<Order>{
+
+    /**
+     * Method that return the Order object created after executed a select query with the give id.
+     * @param id
+     * @return
+     */
     @Override
     public Order get(int id) {
         Connection connection = null;
@@ -44,6 +53,10 @@ public class OrderDAO implements DAO<Order>{
         return order;
     }
 
+    /**
+     *  Method that return a list of Order objects after it executed a SELECT query that return all rows from the table.
+     * @return
+     */
     @Override
     public List<Order> getAll() {
         Connection connection = null;
@@ -78,6 +91,11 @@ public class OrderDAO implements DAO<Order>{
         return list;
     }
 
+    /**
+     * Method that execute an insert query to save the given Order object into the order table.
+     * @param order
+     * @return
+     */
     @Override
     public int save(Order order) {
         System.out.println(order);
@@ -113,6 +131,10 @@ public class OrderDAO implements DAO<Order>{
         return generatedKey;
     }
 
+    /**
+     * Method that execute a delete query using the given id
+     * @param id
+     */
     @Override
     public void delete(int id) {
         Connection connection = null;
@@ -134,6 +156,11 @@ public class OrderDAO implements DAO<Order>{
         }
     }
 
+    /**
+     * Method that update the row from the table corresponding to the given Order object. It executes an update query.
+     * @param order
+     * @return
+     */
     @Override
     public int update(Order order) {
         Connection connection = null;

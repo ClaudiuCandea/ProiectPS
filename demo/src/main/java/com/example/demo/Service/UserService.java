@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Class that implement the business logic for object of type User
+ * Class that implements the business logic for object of type User
  */
 @Service
 public class UserService{
@@ -21,7 +21,7 @@ public class UserService{
     }
 
     /**
-     * Method that receive an id and return the corespondent user from the repository
+     * Method that receives an id and return the corespondent user from the repository
      * @param id
      * @return
      */
@@ -30,7 +30,7 @@ public class UserService{
     }
 
     /**
-     *  Method that return all users from the repository
+     *  Method that returns all users from the repository
      * @return
      */
     public List<User> getAll(){
@@ -38,7 +38,7 @@ public class UserService{
     }
 
     /**
-     *  Method that receive an user as parameter and save it in the repository
+     *  Method that receives an user as parameter and save it in the repository
      * @param user
      */
     public void save(User user){
@@ -48,7 +48,7 @@ public class UserService{
         }
     }
     /**
-     Method that delete an user from the repository using his id
+     Method that deletes an user from the repository using his id
      */
     public void delete(int id){
         dao.delete(id);

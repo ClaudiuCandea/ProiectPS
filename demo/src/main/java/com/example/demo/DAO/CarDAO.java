@@ -8,8 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that execute the basic CRUD operation on the Car table from the taxi database: INSERT, DELETE, SELECT, UPDATE.
+ */
 @Repository
 public class CarDAO implements DAO<Car>{
+
+    /**
+     * Method that return the Car object created after executed a select query with the give id.
+     * @param carID
+     * @return
+     */
     @Override
     public Car get(int carID) {
         Connection connection = null;
@@ -43,6 +52,10 @@ public class CarDAO implements DAO<Car>{
         return car;
     }
 
+    /**
+     * Method that return a list of Car object after it executed a SELECT query that return all rows from the table.
+     * @return
+     */
     @Override
     public List<Car> getAll() {
         Connection connection = null;
@@ -78,6 +91,11 @@ public class CarDAO implements DAO<Car>{
         return list;
     }
 
+    /**
+     * Method that execute a insert query to save the given Car object into the car table.
+     * @param car
+     * @return
+     */
     @Override
     public int save(Car car) {
 
@@ -112,6 +130,10 @@ public class CarDAO implements DAO<Car>{
         return generatedKey;
     }
 
+    /**
+     * Method that execute a delete query using the given id
+     * @param id
+     */
     @Override
     public void delete(int id) {
         Connection connection = null;
@@ -133,6 +155,11 @@ public class CarDAO implements DAO<Car>{
         }
     }
 
+    /**
+     * Method that update the row from the table coresponding to the given Car object. It executes a update query.
+     * @param car
+     * @return
+     */
     @Override
     public int update(Car car) {
         Connection connection = null;

@@ -10,8 +10,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that execute the basic CRUD operation on the driver table from the taxi database: INSERT, DELETE, SELECT, UPDATE.
+ * Some operation need to execute query also on user table to insert a client properly.
+ */
 @Repository
 public class DriverDAO implements DAO<Driver>{
+
+    /**
+     * Execute 2 queries. One to get the corresponding information to the given id form the driver table and
+     *  ne to select the corresponding information from the user table. It returns a driver object
+     * @param id
+     * @return
+     */
     @Override
     public Driver get(int id) {
         Connection connection = null;
@@ -55,6 +66,11 @@ public class DriverDAO implements DAO<Driver>{
         return driver;
     }
 
+    /**
+     * Execute 2 queries. One to get all the information about drivers from the driver table and
+     * one to select the corresponding information from the user table. It returns a list of drivers.
+     * @return
+     */
     @Override
     public List<Driver> getAll() {
         Connection connection = null;
@@ -102,6 +118,12 @@ public class DriverDAO implements DAO<Driver>{
         return list;
     }
 
+    /**
+     * Execute 2 insert queries. One to insert information into the driver table and one to insert information on user table.
+     * Return the generated key from the driver table
+     * @param driver
+     * @return
+     */
     @Override
     public int save(Driver driver) {
         Connection connection = null;
@@ -142,6 +164,11 @@ public class DriverDAO implements DAO<Driver>{
         return generatedKey;
     }
 
+    /**
+     * Execute 2 queries to delete a driver from the database, one on the user table and one on the driver table.
+     * It returns the deleted key from driver table.
+     * @param userID
+     */
     @Override
     public void delete(int userID) {
         Connection connection = null;
@@ -170,6 +197,12 @@ public class DriverDAO implements DAO<Driver>{
         }
     }
 
+    /**
+     * Method that execute 2 queries to update the information about a driver already in the database.
+     * One query is on the user table and one on the driver table.
+     * @param driver
+     * @return
+     */
     @Override
     public int update(Driver driver) {
         Connection connection = null;

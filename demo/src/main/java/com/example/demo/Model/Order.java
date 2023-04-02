@@ -2,6 +2,9 @@ package com.example.demo.Model;
 
 import java.sql.Date;
 
+/**
+ * Class that represents an abstraction of an order
+ */
 public class Order {
     private int id;
     private int clientID;

@@ -1,5 +1,8 @@
 package com.example.demo.Model;
 
+/**
+ * Class that represents an abstraction of a car.
+ */
 public class Car implements Observer{
     private int id;
     private String producer;
@@ -61,7 +64,10 @@ public class Car implements Observer{
         this.driverID = driverID;
     }
 
-
+    /**
+     * When this method is invoked the number of taken orders is updates. It is used in implementing the Observer design pattern.
+     * @param noTakenOrders
+     */
     @Override
     public void update(int noTakenOrders) {
         this.noTakenOrders =noTakenOrders;

@@ -1,5 +1,9 @@
 package com.example.demo.Model;
 
+
+/**
+ * Class that extends the user Class. A client is a user that request rides.
+ */
 public class Client extends User{
     private int clientID;
     private String cardNumber;

@@ -1,5 +1,8 @@
 package com.example.demo.Model;
 
+/**
+ * Class that represents an abstraction of a user. It will be extended by the classes that represent specific users.
+ */
 public class User {
     private int id;
     private String name;
