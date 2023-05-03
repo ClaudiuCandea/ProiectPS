@@ -14,7 +14,7 @@ public class ClientService {
 
     private DAO<Client> dao;
 
-    private ClientService(DAO<Client> dao){
+    public ClientService(DAO<Client> dao){
         this.dao = dao;
     }
 
