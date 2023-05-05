@@ -28,7 +28,8 @@ Tabelul "order" metine inforamtii despre comenziile efectuate de clientii. Se me
 Am creat endpoint-uri de POST,PUT,DELETE si GET pentru toate tabelele din baza de date, oferind astfel posibilitatea de a salva, actualiza, sterge sau extrage informatiile necesare stocate in baza de date. Pentru fiecare table s-a creat o clasa controller care incorporeaza endpoint-urile.
 Functile get reprezinta endpoint-urile pentru request-urile de tipul GET, ce returneaza informatii stocate in baza de date. Functile save reprezinta endpoint-uri pentru request-urile de tip POST, permitand astfel inserarea de noi randuri in baza de date. Functile reprezinta endpoint-uri pentru request-urile de tip PUT, permitand astfel sa se actualizeze randurile deja prezente in baza de date. Functile delete reprezinta endpoint-uri pentru request-urile de tip DELETE, prin intermediul carora se sterg informatii stocate in baza de date.
 ##### User controller
-In aceasta clasa s-au implementat endpoint-urile pentru useri. Metoda getUsers returneaza toti user-ii din baza de date sub forma unei liste. Metoda getUserById primeste un parametru de tipul int ce reprezinta un id, returnand user-ul din baza de data corespunzator id-ului 
+In aceasta clasa s-au implementat endpoint-urile pentru useri. Metoda getUsers returneaza toti user-ii din baza de date sub forma unei liste. Metoda getUserById primeste un parametru de tipul int ce reprezinta un id, returnand user-ul din baza de data corespunzator id-ului.
+Metoda getUserById primeste ca parametru un string ce reprezinta un email si returneaza user-ul din baza de date care are acest email.
     
 Metoda saveUser() primeste un obiect de tipul User pe care il va stoca in baza de date. 
     
