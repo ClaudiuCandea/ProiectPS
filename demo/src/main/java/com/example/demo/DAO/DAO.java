@@ -8,6 +8,7 @@ public interface DAO<T>{
 
     T get(int id);
     List<T> getAll();
+    T getByEmail(String email);
 
     int save(T t);
     void delete(int id);

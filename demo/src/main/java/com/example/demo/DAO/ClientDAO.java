@@ -118,6 +118,11 @@ public class ClientDAO implements DAO<Client>{
         return list;
     }
 
+    @Override
+    public Client getByEmail(String email) {
+        return null;
+    }
+
     /**
      * Execute 2 insert queries. One to insert information into the client table and one to insert information on user table.
      * Return the generated key from the client table

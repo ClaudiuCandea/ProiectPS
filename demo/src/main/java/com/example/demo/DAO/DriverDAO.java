@@ -118,6 +118,11 @@ public class DriverDAO implements DAO<Driver>{
         return list;
     }
 
+    @Override
+    public Driver getByEmail(String email) {
+        return null;
+    }
+
     /**
      * Execute 2 insert queries. One to insert information into the driver table and one to insert information on user table.
      * Return the generated key from the driver table

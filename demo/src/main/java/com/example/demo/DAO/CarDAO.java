@@ -91,6 +91,11 @@ public class CarDAO implements DAO<Car>{
         return list;
     }
 
+    @Override
+    public Car getByEmail(String email) {
+        return null;
+    }
+
     /**
      * Method that execute a insert query to save the given Car object into the car table.
      * @param car

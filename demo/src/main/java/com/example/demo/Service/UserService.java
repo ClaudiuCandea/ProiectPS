@@ -30,6 +30,15 @@ public class UserService{
     }
 
     /**
+     * Method that receives an email and return the corespondent user from the repository
+     * @param email
+     * @return
+     */
+    public User getByEmail(String email){
+        return dao.getByEmail(email);
+    }
+
+    /**
      *  Method that returns all users from the repository
      * @return
      */

@@ -91,6 +91,11 @@ public class OrderDAO implements DAO<Order>{
         return list;
     }
 
+    @Override
+    public Order getByEmail(String email) {
+        return null;
+    }
+
     /**
      * Method that execute an insert query to save the given Order object into the order table.
      * @param order

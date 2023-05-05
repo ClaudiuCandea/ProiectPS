@@ -46,6 +46,15 @@ public class UserTest {
     }
 
     @Test
+    void testGetUserByEmail(){
+        User user = new User(1,"Claudiu","claudiu.candea@gmail.com","0754757898","hellohello","client");
+        UserService userService = new UserService(dao);
+        when(dao.getByEmail("claudiu.candea@gmail.com")).thenReturn(user);
+        userService.getByEmail("claudiu.candea@gmail.com");
+        verify(dao).getByEmail("claudiu.candea@gmail.com");
+    }
+
+    @Test
     void testGetAllUsers(){
         User user1 = new User(1,"Claudiu","claudiu.candea@gmail.com","0754757898","hellohello","client");
         User user2 = new User(1,"Marian","marian.candea@gmail.com","0754757899","hellohello","client");

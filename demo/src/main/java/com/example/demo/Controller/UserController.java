@@ -29,6 +29,16 @@ public class UserController {
     }
 
     /**
+     * Method that execute a get request on the user table. It returns only one user base on his email
+     * @param email
+     * @return
+     */
+    @GetMapping("/getUserByEmail")
+    public User getUserByEmail(@RequestParam(value = "email") String email){
+        return userService.getByEmail(email);
+    }
+
+    /**
      * Method that execute a get request on the user tabel. It returns all users
      * @param id
      * @return

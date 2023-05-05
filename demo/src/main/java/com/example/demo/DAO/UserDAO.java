@@ -51,7 +51,39 @@ public class UserDAO implements DAO<User>{
        return user;
     }
 
+    @Override
+    public User getByEmail(String email){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String query = "SELECT * FROM user WHERE email = ?";
+        User user = new User();
+        try{
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.setString(1,email);
+            resultSet = statement.executeQuery();
 
+            while(resultSet.next()){
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setPassword(resultSet.getString("password"));
+                user.setPassword(resultSet.getString("type"));
+
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            ConnectionFactory.close(resultSet);
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(connection);
+        }
+        return user;
+    }
 
     /**
      * Method that return all users from the database
