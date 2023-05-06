@@ -51,6 +51,8 @@ public class Driver extends User{
 
     public void setNoTakenOrders(int noTakenOrders) {
         this.noTakenOrders = noTakenOrders;
-        notifyObserver();
+        if(observer!=null){
+            notifyObserver();
+        }
     }
 }
