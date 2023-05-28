@@ -12,7 +12,7 @@ Aplicatia trebuie sa permita inregistrare de noi utilzatori, a caror date de aut
 Aplicatia are 3 tipuri de utilizatori: client, sofer, administrator. La efectuare unei inregistrari de utilizator nou se poate alege ca acesta sa fie sofer sau client, nu se poate creea un administrator nou. 
 Clientul trebuie sa abia posibilitatea de a accesa aplicatia in baza credentialelor introdus la inregistrare. Acesta poate sa plasese o cursa introducand in casetele text prezente adresa de plecare si cea a destinatiei. Totodata, clientul va fi notificat daca curs plasata de acesta a fost acceptata de catre un sofer.
 Soferul trebuie sa abia posibilitatea de a accesa aplicatia in baza credentialelor introdus la inregistrare. Acesta poate sa vizualizeze cursele plasate de clienti ce nu au fost acceptate inca de alti soferi si poate sa aleaga ce curs avrea sa accepte dintre cele ce ii sunt prezentate.
-Administratorul poate sa vada date despre client si soferi si poate sa stearga utilizatori.
+Administratorul poate sa vada date despre client si soferi.
 Ca cerinte nonfunctionale aplicatia trebuie sa oferie o interfata prietenoasa si intuitiva pentru utilizatorii sai si sa asigure validitatea datelor introduse de acestia.
 
 
@@ -30,7 +30,7 @@ Functile get reprezinta endpoint-urile pentru request-urile de tipul GET, ce ret
 ##### User controller
 In aceasta clasa s-au implementat endpoint-urile pentru useri. Metoda getUsers returneaza toti user-ii din baza de date sub forma unei liste. Metoda getUserById primeste un parametru de tipul int ce reprezinta un id, returnand user-ul din baza de data corespunzator id-ului.
 
-Metoda getUserById primeste ca parametru un string ce reprezinta un email si returneaza user-ul din baza de date care are acest email.
+Metoda getUserByEmail primeste ca parametru un string ce reprezinta un email si returneaza user-ul din baza de date care are acest email.
 
 Metoda saveUser() primeste un obiect de tipul User pe care il va stoca in baza de date. 
     
@@ -40,6 +40,8 @@ Metoda deleteUser() primeste ca parametru un o valoare de tip int reprezentant i
     
 #### Client controller
 In aceasta clasa s-au implementat endpoint-uri pentru user-ii de tip clienti. Metodele getClientByID() si getAllClients() returneaza un client in functie de un client_id specificat, repectiv o lista cu toti  clientii. Informatiile extrase sunt atat din tabelul user unde se pastreaza informatiile generale despre utilizatori, cat si din tabelul clienti unde se pastreaza informatiile specifice pentru clienti.
+
+Metoda getClientByUserID() primeste ca paramentru un id de user si clientul asociat acestuia.
     
 Metoda saveClient() primeste un obiect de tipul Client pe care il salveaza in baza de date. Se insereaza cate un rand nou atat in tabeul user cat si in tabelul client.
     
@@ -52,6 +54,8 @@ Metoda deleteClient() primeste un userId corepunzator unui client si sterge info
 In aceasta clasa s-au implementat endpoint-uri pentru operatiile asupra tabelului driver. La fel ca si client, driver reprezinta un tip special de utilizator al aplicatie.
 
 Metodele getAllDrivers si getDriverById au acelasi comportament ca si metodele getAllClients si getClientById, insa de data aceasta informatiile extrase sunt din tabelele user si driver.
+
+Metoda getDriverByUserID() returneaza un driver in functie de user id-ul primit ca si parametru al metodei.
 
 Metoda saveDrive() primeste un obiect de tipul Driver pe care i-l va stoca in baza de date. O parte din informatiile continute de acest obiect sunt stocate in tabeul user, iar cealalta parte in tabelul driver.
 
@@ -81,7 +85,9 @@ Metoda saveOrder() primeste un obiect de tipul Order ca parametru si il insereaz
 
 Metoda updateOrder() actualizeaza informatiile unui rand din tabelul order. Acest rand este identificat in baza id-ului obiectului Order primit ca argument, totodata, obiecut acesta contine si valorile ce vor fi folosite in actualizare coloanelor din baza de date.
 
-Metoda deleteOrder() primeste un id-ul unei comezi si sterge randul corepunzator din tabelul order.
+Metoda deleteOrder() primeste id-ul unui client si sterge din baza de date comenzile atasate acestiui client_id.
+
+Metoda deleteOrderDriver() primeste id-ul unui driver si sterge din baza de date comenzile atasate acestui driver_id.
 
 ## Clasele DAO
 Clasele UserDAO, ClientDAO, DriverDAO, CarDAO si OrderDAO implementeaza interfata DAO ce descrie principalele operatii ce se executa asupra unei baza de date: stergere, insereare, interogare si actualizare.
@@ -99,4 +105,28 @@ Metodele delete, update si insert returneaza cheia din tabel la care s-a facut m
 Clasa Car implemeteaza interfara Observar cu metoda update. Metoda primeste ca paramteru o valoare de tipul int ce va fi asignata campului noTakenOrder al obiectului de tipul Car cu care a fost apelata.
 
 Clasa Driver mentine o referinta spre un obiect de tipul Obsever si are o metoda addObserver prin care se poate schimba referinta. Metoda notify din clasa Driver apeleaza metoda update a obiecului Observer trimitand-ui ca parametru numarul de comezi acceptate de catre sofer. Astfel de fiecare data cand se actualizeaza numarul de comenzi acceptate din obiectul clasei Driver, se va actualiza si cel din obiectul corespunzator din clasa Car.
+
+## FrontEnd
+Pentru partea de frontEnd am decis sa creez o aplicatie android care sa se conecteze la server-ul realizat cu java Spring.  Ca tehnologice am folosit limbajul java si IDE-ul Android Studio.
+
+Am folost biblioteca Retrofit pentru a conecta partea de frontEnd la partea de backEnd, definind intr-o interfata,WebApiService, metodele asociate endpoint-urilor expuse de aplicatia java Spring.
+Sau creeat si clase de model care sa reprezinte obiectele venite de la aplicatia de backend: Car, Client, Driver, User, Order. 
+
+Ca activitati avem urmatoarele: MainActivity,RegisterClientActivity, RegisterDriverActivity ClientActiviy, UpdateClientActivity, DriverActivity, UpdateDriverActivity, RegisterCarActivity si AdminActivity. Fiecare fisier java pentru fiecare activitate are asociat un fiser xml care descrie partea vizuala a activitatii, in timp ce fisierul java descrie logia acesteia.
+
+MainActivity reprezinta pagina de logIn, in care duca ce s-au introdus credentialele in textField-urile prezente utilizatorul va fi redirectionat spre o activitate specifica tipului de utilizator asociat contului la apasare butonului LogIn. Daca datele introduce sunt incorecte se va afisa un mesaj care sa informeze utilizatorul asupra acestui aspect. Tot in aceasta activiate mai sunt 2 butoane pentru a deschide activatile de inregistare a unui nou utilizator, unul pentru inregistrare Client si unul pentru inregistrare Driver.
+
+Activitate RegisterClient permite inregistrare unui nou client prin introducerea datelor necesare in textField-urile prezente. Inregistare se produce la apasarea butonului de pe pagina.
+
+Activitatea RegisterDriver permite inregistrare unui nou driver prin introducerea datelor necesare in textField-urile prezente. Inregistare se produce la apasarea butonului de pe Register. La apasarea butonului Next se deschide activiatea RegisterCar, unde se introduc datele masinii asociate unui driver.
+
+Activitatea ClientActivity reprezinta pagina principala a unui client. De aici el poate sa introduca locatia curenta si destinatia necesare pentru creearea unei noi comezi la apasare butonului CreateOrder. La apsarea butonului LogOut acesta va fi deconectat si redirectionat la pagina de LogIn. La apsarea butonului DeleteAccount se va produce stergera utilizatorului conectat. Butonul UpdateInfo va deschide activatea UpdateClient, unde clientul poate sa isi vizualizele si actualizeze datele.
+
+Activitatea DriverActvity reprezinta pagina principala a unui driver. Butonul Orders va afisa in parea de jos a paginii un fragment ce contine un table cu toate comenzile ce nu au inca asociat un driver, prin apasarea uneia dintre comenzi acesta poate sa o accepte.  La apsarea butonului LogOut acesta va fi deconectat si redirectionat la pagina de LogIn. La apsarea butonului DeleteAccount se va produce stergera utilizatorului conectat. Butonul updateInfo va deschide activitatea UpdateDriver, unde driver-ul poate sa isi vizualizeze si actualizele datele, atat ale sale cat si ale masinii asociate lui.
+
+Activitatea AdminActivity reprezinta pagina principala a unui administrator. Aceasta activitate permite vizualizarea datelor stocate in baza de date, schimbarea datelor ce se doresc vizuale se face prin apasarea butoanelor prezente si prin introducera optionala a unui id in textField-ul prezent. Datele se vor afisa sub forma de table in frame-ul din partea de jos a activitatii. Tabelui va fi continut de un framgent.
+
+Fragmentele CarsFragment, ClientsFragment, DriversFragment, OrderAdminFragment, OrdersFragment,UserFragment contine tabelele ce se pot afisa in AdminActivity si DriverActivity.
+Pentru a implementa aceste tabele s-au folosit recyclerView-uri. Fiecare recyclerView are asociate 2 clase: una numita Adapter si una numita ViewHolder. Acestea sunt neceste pentru a procesa datele venite de la aplicatia Spring sub forma de lista si transpunera lor sub forma tabelara.
+
 
