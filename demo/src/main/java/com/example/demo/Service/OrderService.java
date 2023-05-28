@@ -4,6 +4,7 @@ import com.example.demo.DAO.DAO;
 import com.example.demo.Model.Order;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -40,15 +41,16 @@ public class OrderService {
      * @return
      */
     public int saveOrder(Order order){
+        order.setOrderDate(new Date(System.currentTimeMillis()));
         return dao.save(order);
     }
 
     /**
      * Method that deletes a client from the repository using his id.
-     * @param orderID
+     * @param clientID
      */
-    public void deleteOrder(int orderID){
-        dao.delete(orderID);
+    public void deleteOrder(int clientID){
+        dao.delete(clientID);
     }
 
     /**
@@ -58,6 +60,10 @@ public class OrderService {
      */
     public int updateOrder(Order order){
         return dao.update(order);
+    }
+
+    public void deleteOrderByDriverID(int driverID){
+        dao.deleteOrderByDriverID(driverID);
     }
 
 

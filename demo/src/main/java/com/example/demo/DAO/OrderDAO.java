@@ -107,16 +107,15 @@ public class OrderDAO implements DAO<Order>{
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String query = "INSERT INTO taxi.order (client_id,driver_id,order_date,start_location,destination_location) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO taxi.order (client_id,order_date,start_location,destination_location) VALUES (?,?,?,?)";
         int generatedKey = 0;
         try{
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1,order.getClientID());
-            statement.setInt(2,order.getDriverID());
-            statement.setDate(3,order.getOrderDate());
-            statement.setString(4,order.getStartLocation());
-            statement.setString(5,order.getDestinationLocation());
+            statement.setDate(2,order.getOrderDate());
+            statement.setString(3,order.getStartLocation());
+            statement.setString(4,order.getDestinationLocation());
             System.out.println(statement);
             statement.execute();
             resultSet = statement.getGeneratedKeys();
@@ -145,7 +144,7 @@ public class OrderDAO implements DAO<Order>{
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        String query = "DELETE FROM taxi.order WHERE order_id = ?";
+        String query = "DELETE FROM taxi.order WHERE client_id = ?";
         try{
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(query);
@@ -199,5 +198,31 @@ public class OrderDAO implements DAO<Order>{
             ConnectionFactory.close(connection);
         }
         return generatedKey;
+    }
+
+    @Override
+    public Object getByUserID(int userID) {
+        return null;
+    }
+
+    @Override
+    public void deleteOrderByDriverID(int driverID) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String query = "DELETE FROM taxi.order WHERE driver_id = ?";
+        try{
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1,driverID);
+            statement.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(connection);
+        }
     }
 }

@@ -74,4 +74,8 @@ public class DriverService {
     public void deleteDriver(int userID){
         dao.delete(userID);
     }
+
+    public Driver getDriverByUserID(int userID){
+        return (Driver)dao.getByUserID(userID);
+    }
 }

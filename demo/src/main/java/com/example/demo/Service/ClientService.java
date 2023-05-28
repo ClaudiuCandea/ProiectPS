@@ -35,13 +35,16 @@ public class ClientService {
         return dao.getAll();
     }
 
+    public Client getClientByUserID(int userID){
+        return (Client)dao.getByUserID(userID);
+    }
+
     /**
      * Method that receives a client as parameter and save it in the repository
      * @param client
      * @return
      */
-    public int saveClient(Client client){
-        return dao.save(client);
+    public int saveClient(Client client){return dao.save(client);
     }
 
 

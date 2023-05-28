@@ -65,6 +65,52 @@ public class ClientDAO implements DAO<Client>{
         }
         return client;
     }
+    public Client getByUserID(int id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        PreparedStatement statement2 = null;
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+        String query = "SELECT * FROM client WHERE user_id = " + id;
+        String query2 = "SELECT * FROM user  WHERE id = ?";
+        Client client = new Client();
+        try{
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                client.setClientID(resultSet.getInt("client_id"));
+                client.setCardNumber(resultSet.getString("card_number"));
+                int userID = resultSet.getInt("user_id");
+                statement2 = connection.prepareStatement(query2);
+                statement2.setInt(1,userID);
+                resultSet2=statement2.executeQuery();
+                client.setId(userID);
+                resultSet2.next();
+                client.setName(resultSet2.getString("name"));
+                client.setEmail(resultSet2.getString("email"));
+                client.setPhone(resultSet2.getString("phone"));
+                client.setPassword(resultSet2.getString("password"));
+                client.setType(resultSet2.getString("type"));
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            ConnectionFactory.close(resultSet);
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(statement2);
+            ConnectionFactory.close(connection);
+        }
+        return client;
+    }
+
+    @Override
+    public void deleteOrderByDriverID(int driverID) {
+
+    }
 
     /**
      *  Execute 2 queries. One to get all the informations about clients from the client table and

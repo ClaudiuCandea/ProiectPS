@@ -70,7 +70,7 @@ public class UserDAO implements DAO<User>{
                 user.setEmail(resultSet.getString("email"));
                 user.setPhone(resultSet.getString("phone"));
                 user.setPassword(resultSet.getString("password"));
-                user.setPassword(resultSet.getString("type"));
+                user.setType(resultSet.getString("type"));
 
             }
         }
@@ -132,8 +132,8 @@ public class UserDAO implements DAO<User>{
        Connection connection = null;
        PreparedStatement statement = null;
        ResultSet resultSet = null;
-       String query = "INSERT INTO user (name,email,phone,password,type) VALUES (?,?,?,?,?)";
        int generatedKey = 0;
+       String query = "INSERT INTO user (name,email,phone,password,type) VALUES (?,?,?,?,?)";
        try{
            connection = ConnectionFactory.getConnection();
            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -194,6 +194,16 @@ public class UserDAO implements DAO<User>{
         }
         return generatedKey;
 
+
+    }
+
+    @Override
+    public Object getByUserID(int userID) {
+        return null;
+    }
+
+    @Override
+    public void deleteOrderByDriverID(int driverID) {
 
     }
 

@@ -13,4 +13,6 @@ public interface DAO<T>{
     int save(T t);
     void delete(int id);
     int update(T t);
+    Object getByUserID(int userID);
+    void deleteOrderByDriverID(int driverID);
 }

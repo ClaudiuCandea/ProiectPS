@@ -62,10 +62,19 @@ public class OrderController {
 
     /**
      * Method that execute a DELETE request. It deletes an order from the database.
-     * @param orderID
+     * @param clientID
      */
     @DeleteMapping("/deleteOrder")
-    public void deleteOrder(@RequestParam(value = "orderID") int orderID){
-        orderService.deleteOrder(orderID);
+    public void deleteOrder(@RequestParam(value = "client_id") int clientID){
+        orderService.deleteOrder(clientID);
+    }
+
+    /**
+     * Method that execute a DELETE request. It deletes an order from the database.
+     * @param driverID
+     */
+    @DeleteMapping("/deleteOrderDriver")
+    public void deleteOrderDriver(@RequestParam(value = "driver_id") int driverID){
+        orderService.deleteOrderByDriverID(driverID);
     }
 }

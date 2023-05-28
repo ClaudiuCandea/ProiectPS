@@ -135,9 +135,11 @@ public class DriverDAO implements DAO<Driver>{
         PreparedStatement statement = null;
         PreparedStatement statement2 = null;
         ResultSet resultSet = null;
+        ResultSet resultSet1 = null;
         String query = "INSERT INTO user (name,email,phone,password,type) VALUES (?,?,?,?,?)";
         String query2 = "INSERT INTO driver (user_id,no_taken_orders) VALUES (?,?)";
         int generatedKey = 0;
+        int generatedKey2 = 0;
         try{
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -155,6 +157,10 @@ public class DriverDAO implements DAO<Driver>{
             statement2.setInt(1,generatedKey);
             statement2.setInt(2,driver.getNoTakenOrders());
             statement2.execute();
+            resultSet1 = statement2.getGeneratedKeys();
+            if(resultSet1.next()){
+                generatedKey2 = resultSet1.getInt(1);
+            }
 
         }
         catch(SQLException e){
@@ -166,7 +172,7 @@ public class DriverDAO implements DAO<Driver>{
             ConnectionFactory.close(statement2);
             ConnectionFactory.close(connection);
         }
-        return generatedKey;
+        return generatedKey2;
     }
 
     /**
@@ -245,5 +251,50 @@ public class DriverDAO implements DAO<Driver>{
             ConnectionFactory.close(connection);
         }
         return generatedKey;
+    }
+
+    @Override
+    public Driver getByUserID(int userID) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        PreparedStatement statement2 = null;
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+        String query = "SELECT * FROM driver WHERE user_id = " + userID;
+        String query2 = "SELECT * FROM user  WHERE id = ?";
+        Driver driver = new Driver();
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                driver.setDriverID(resultSet.getInt("driver_id"));
+                driver.setNoTakenOrders(resultSet.getInt("no_taken_orders"));
+                statement2 = connection.prepareStatement(query2);
+                statement2.setInt(1, userID);
+                resultSet2 = statement2.executeQuery();
+                driver.setId(userID);
+                resultSet2.next();
+                driver.setName(resultSet2.getString("name"));
+                driver.setEmail(resultSet2.getString("email"));
+                driver.setPhone(resultSet2.getString("phone"));
+                driver.setPassword(resultSet2.getString("password"));
+                driver.setType(resultSet2.getString("type"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionFactory.close(resultSet);
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(statement2);
+            ConnectionFactory.close(connection);
+        }
+        return driver;
+    }
+
+    @Override
+    public void deleteOrderByDriverID(int driverID) {
+
     }
 }

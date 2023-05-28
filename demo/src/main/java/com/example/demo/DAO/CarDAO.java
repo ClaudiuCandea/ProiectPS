@@ -199,4 +199,14 @@ public class CarDAO implements DAO<Car>{
         return generatedKey;
 
     }
+
+    @Override
+    public Object getByUserID(int userID) {
+        return 0;
+    }
+
+    @Override
+    public void deleteOrderByDriverID(int driverID) {
+
+    }
 }

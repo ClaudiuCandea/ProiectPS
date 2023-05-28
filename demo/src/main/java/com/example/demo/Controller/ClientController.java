@@ -29,6 +29,11 @@ public class ClientController {
         return clientService.getClient(clientID);
     }
 
+    @GetMapping("/getClientByUserID")
+    public Client getClientByUserID(@RequestParam(value = "userID") int userID) {
+        return clientService.getClientByUserID(userID);
+    }
+
     /**
      * Method that execute a get request on the client and user table. It return all clients.
      * @return

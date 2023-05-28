@@ -29,6 +29,10 @@ public class DriverController {
     public Driver getDriverByID(@RequestParam(value = "driverID") int driverID){
         return driverService.getDriver(driverID);
     }
+    @GetMapping("/getDriverByUserID")
+    public Driver getDriverByUserID(@RequestParam(value = "userID") int userID){
+        return driverService.getDriverByUserID(userID);
+    }
 
     /**
      * Method that execute a get request on the driver and user table. It returns all drivers.
